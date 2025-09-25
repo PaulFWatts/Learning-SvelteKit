@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variables & Scope - JavaScript Learning Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 5px;
+        }
+
+        .demo-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+
+        .file-button {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .file-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .console-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            min-height: 400px;
+            max-height: 600px;
+            overflow-y: auto;
+            margin: 20px 0;
+            white-space: pre-wrap;
+            border: 2px solid #333;
+        }
+
+        .console-output:empty::before {
+            content: "Click a button above to run JavaScript examples and see the output here...";
+            color: #888;
+            font-style: italic;
+        }
+
+        .description {
+            background: #e8f4fd;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .warning {
+            background: #fdf4e8;
+            padding: 15px;
+            border-left: 4px solid #f39c12;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .success {
+            background: #e8f6f3;
+            padding: 15px;
+            border-left: 4px solid #27ae60;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .error {
+            background: #fdf2f2;
+            padding: 15px;
+            border-left: 4px solid #e74c3c;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px dashed #dee2e6;
+        }
+
+        .clear-button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .clear-button:hover {
+            background: #c0392b;
+        }
+
+        .intro {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .intro h3 {
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+
+        .file-descriptions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .file-desc {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-desc h4 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        .file-desc p {
+            margin-bottom: 0;
+            color: #555;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🎯 Variables & Scope - JavaScript Learning Demo</h1>
+
+        <div class="intro">
+            <h3>Welcome to the Interactive JavaScript Variables & Scope Tutorial!</h3>
+            <p>This demo page allows you to run and experiment with JavaScript examples covering variables, scope,
+                hoisting, and the temporal dead zone. Click the buttons below to load and execute different tutorial
+                files.</p>
+        </div>
+
+        <div class="description">
+            <strong>📖 How to use this demo:</strong>
+            <ul>
+                <li>Click any button below to run the corresponding JavaScript tutorial</li>
+                <li>Watch the output appear in the console below</li>
+                <li>Open your browser's Developer Tools (F12) to see additional console output</li>
+                <li>Experiment by modifying the code in the .js files and refreshing the page</li>
+            </ul>
+        </div>
+
+        <h2>📚 Tutorial Files</h2>
+
+        <div class="file-descriptions">
+            <div class="file-desc">
+                <h4>01 - var vs let vs const</h4>
+                <p>Learn the fundamental differences between variable declaration keywords and their behaviors.</p>
+            </div>
+            <div class="file-desc">
+                <h4>02 - Block Scope</h4>
+                <p>Understand how block scope works with let and const, and why it's important.</p>
+            </div>
+            <div class="file-desc">
+                <h4>03 - Function Scope</h4>
+                <p>Explore function scope, closures, and how var behaves differently from let/const.</p>
+            </div>
+            <div class="file-desc">
+                <h4>04 - Hoisting</h4>
+                <p>Discover JavaScript's hoisting behavior and how it affects your code execution.</p>
+            </div>
+            <div class="file-desc">
+                <h4>05 - Temporal Dead Zone</h4>
+                <p>Learn about the temporal dead zone and how to avoid common TDZ errors.</p>
+            </div>
+            <div class="file-desc">
+                <h4>06 - Practice Exercises</h4>
+                <p>Test your knowledge with comprehensive exercises covering all concepts.</p>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="file-button" onclick="runScript('01-var-let-const.js')">
+                🔧 Run: var vs let vs const
+            </button>
+            <button class="file-button" onclick="runScript('02-block-scope.js')">
+                🏠 Run: Block Scope
+            </button>
+            <button class="file-button" onclick="runScript('03-function-scope.js')">
+                ⚡ Run: Function Scope
+            </button>
+            <button class="file-button" onclick="runScript('04-hoisting.js')">
+                ⬆️ Run: Hoisting
+            </button>
+            <button class="file-button" onclick="runScript('05-temporal-dead-zone.js')">
+                ⏰ Run: Temporal Dead Zone
+            </button>
+            <button class="file-button" onclick="runScript('06-exercises.js')">
+                🎓 Run: Practice Exercises
+            </button>
+            <br>
+            <button class="clear-button" onclick="clearOutput()">
+                🗑️ Clear Output
+            </button>
+        </div>
+
+        <h2>📟 Console Output</h2>
+        <div id="console-output" class="console-output"></div>
+
+        <div class="warning">
+            <strong>⚠️ Note:</strong> Some examples include intentional errors to demonstrate concepts like the Temporal
+            Dead Zone and scope issues. These errors are expected and are part of the learning process!
+        </div>
+
+        <div class="success">
+            <strong>💡 Pro Tip:</strong> Open your browser's Developer Tools (press F12) to see additional console
+            output and experiment with the code in real-time!
+        </div>
+
+        <div class="description">
+            <strong>🎯 Learning Objectives Recap:</strong>
+            <ul>
+                <li>✅ Understand the differences between var, let, and const</li>
+                <li>✅ Master block scope vs function scope concepts</li>
+                <li>✅ Learn how variable hoisting works in JavaScript</li>
+                <li>✅ Avoid common pitfalls with the Temporal Dead Zone</li>
+                <li>✅ Apply best practices for variable declarations</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Capture console.log output to display in our custom console
+        const originalConsoleLog = console.log;
+        const outputElement = document.getElementById('console-output');
+
+        function customConsoleLog(...args) {
+            // Call original console.log for browser dev tools
+            originalConsoleLog.apply(console, args);
+
+            // Display in our custom console
+            const message = args.map(arg => {
+                if (typeof arg === 'object') {
+                    return JSON.stringify(arg, null, 2);
+                }
+                return String(arg);
+            }).join(' ');
+
+            outputElement.textContent += message + '\n';
+            outputElement.scrollTop = outputElement.scrollHeight;
+        }
+
+        // Replace console.log with our custom version
+        console.log = customConsoleLog;
+
+        // Function to dynamically load and run JavaScript files
+        async function runScript(filename) {
+            try {
+                // Add a separator for new runs
+                if (outputElement.textContent) {
+                    console.log('\n' + '='.repeat(60));
+                    console.log(`🚀 Running: ${filename}`);
+                    console.log('='.repeat(60) + '\n');
+                }
+
+                // Fetch and execute the script
+                const response = await fetch(filename);
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${filename}: ${response.status}`);
+                }
+
+                const scriptContent = await response.text();
+
+                // Create and execute script in a try-catch to handle errors gracefully
+                try {
+                    // Use Function constructor to avoid global scope pollution
+                    const scriptFunction = new Function(scriptContent);
+                    scriptFunction();
+                } catch (executionError) {
+                    console.log(`❌ Error executing ${filename}:`, executionError.message);
+                    console.log('This might be an intentional error for demonstration purposes.');
+                }
+
+            } catch (fetchError) {
+                console.log(`❌ Error loading ${filename}:`, fetchError.message);
+                console.log('Make sure the file exists in the same directory as this HTML file.');
+            }
+        }
+
+        // Function to clear the output console
+        function clearOutput() {
+            outputElement.textContent = '';
+            console.log('Console cleared! 🧹');
+        }
+
+        // Welcome message
+        window.addEventListener('load', function () {
+            console.log('🎉 Welcome to the Variables & Scope Interactive Tutorial!');
+            console.log('📖 Click any button above to start learning.');
+            console.log('🔧 Open Developer Tools (F12) for additional console output.');
+            console.log('');
+        });
+
+        // Handle errors gracefully
+        window.addEventListener('error', function (event) {
+            console.log(`❌ JavaScript Error: ${event.error.message}`);
+            console.log('This might be an intentional error for demonstration purposes.');
+        });
+
+        // Handle unhandled promise rejections
+        window.addEventListener('unhandledrejection', function (event) {
+            console.log(`❌ Unhandled Promise Rejection: ${event.reason}`);
+            event.preventDefault();
+        });
+    </script>
+</body>
+
+</html>
